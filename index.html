@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Manager</title>
+    <script type="module" src="dist/app.js" defer></script>
+  </head>
+  <body>
+    <template id="project-input-template">
+      <form>
+        <div>
+          <label for="title">Title</label>
+          <input type="text" id="title" />
+        </div>
+        <div>
+          <label for="description">Description</label>
+          <textarea id="description" cols="30" rows="1"></textarea>
+        </div>
+        <div>
+          <label for="num-people">Number of People</label>
+          <input type="number" id="num-people" />
+        </div>
+        <button type="submit">ADD PROJECT</button>
+      </form>
+    </template>
+    <template id="project-list-template">
+      <div>
+        <h2></h2>
+        <ul></ul>
+      </div>
+    </template>
+    <template id="project-list-item-template">
+      <li>
+        <h3></h3>
+        <h4></h4>
+        <p></p>
+      </li>
+    </template>
+    <div id="app"></div>
+  </body>
+</html>

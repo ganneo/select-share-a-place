@@ -1,4 +1,5 @@
 import ProjectManager from "../state/ProjectManager.js";
+import { ProjectType } from "../state/ProjectType.js";
 import { AutoBind } from "../util/Decorators.js";
 import Component from "./Component.js";
 import Project from "./Project.js";
@@ -32,7 +33,8 @@ export default class ProjectInput extends Component<HTMLDivElement, HTMLElement>
     const project = new Project(
       this.titleInput.value,
       this.descriptionTextArea.value,
-      +this.numPeopleInput.value
+      +this.numPeopleInput.value,
+      ProjectType.ACTIVE
     );
 
     this.projectManager.addPrj(project);

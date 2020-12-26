@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Project Manager</title>
     <script type="module" src="dist/app.js" defer></script>
+
+    <style>
+      li {
+        border: black 1px solid;
+      }
+    </style>
   </head>
   <body>
     <template id="project-input-template">
@@ -31,7 +37,7 @@
       </div>
     </template>
     <template id="project-list-item-template">
-      <li>
+      <li  draggable="true">
         <h3></h3>
         <h4></h4>
         <p></p>

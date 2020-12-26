@@ -1,6 +1,7 @@
 import Observer from "../state/Observer.js"
 import ProjectManager from "../state/ProjectManager.js"
 import { ProjectType } from "../state/ProjectType.js"
+import { AutoBind } from "../util/Decorators.js"
 import Component from "./Component.js"
 import Project from "./Project.js"
 import ProjectListItem from "./ProjectListItem.js"
@@ -19,7 +20,31 @@ export default class ProjectList extends Component<HTMLDivElement, HTMLElement> 
         this.register()
     }
 
-    protected configure() {}
+    protected configure() {
+        this.element.addEventListener('dragover', this.makeDroppable)
+        this.element.addEventListener('dragleave', this.outOfDragover)
+        this.element.addEventListener('drop', this.dropPrj)
+    }
+
+    @AutoBind
+    private makeDroppable(e: DragEvent) {
+        if (e.dataTransfer && e.dataTransfer.types[0] === 'text/plain') {
+            this.element.style.color = 'red'
+            e.preventDefault()
+        }
+    }
+
+    @AutoBind
+    private outOfDragover() {
+        this.element.style.color = 'black'
+    }
+
+    @AutoBind
+    private dropPrj(e: DragEvent) {
+        this.element.style.color = 'black'
+        const prjId = e.dataTransfer!.getData('text/plain')
+        this.manager.updatePrj(+prjId, this.projectType)
+    }
 
     private register() {
         this.manager.register(this)
@@ -27,7 +52,7 @@ export default class ProjectList extends Component<HTMLDivElement, HTMLElement> 
 
     observe(prjs: Project[]): void {
         this.ulEle.innerHTML = ''
-        prjs.forEach(prj => {
+        prjs.filter(prj => prj.type === this.projectType).forEach((prj) => {
             new ProjectListItem(this.ulId, prj)
         })
     }

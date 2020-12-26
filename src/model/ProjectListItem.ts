@@ -1,3 +1,4 @@
+import { AutoBind } from "../util/Decorators.js";
 import Component from "./Component.js";
 import Project from "./Project.js";
 
@@ -8,9 +9,15 @@ export default class ProjectListItem extends Component<HTMLUListElement, HTMLLIE
         this.element.querySelector('h3')!.textContent = project.title
         this.element.querySelector('h4')!.textContent = project.numPeople.toString()
         this.element.querySelector('p')!.textContent = project.description
-
     }
 
     protected configure(): void {
+        this.element.addEventListener('dragstart', this.transferPrjId)
+    }
+
+    @AutoBind
+    private transferPrjId(e: DragEvent) {
+        e.dataTransfer!.setData('text/plain', this.project.id.toString())
+        e.dataTransfer!.effectAllowed = 'move'
     }
 }

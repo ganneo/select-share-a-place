@@ -1,3 +1,7 @@
+import Project from "../model/Project.js";
+import MaxField from "./MaxField.js";
+import { validator } from "./Validator.js";
+
 export function AutoBind(
   _: object,
   _2: string,
@@ -11,4 +15,14 @@ export function AutoBind(
     },
   };
   return newDescriptior;
+}
+
+export function NotNull(_: object, name: keyof Project): void {
+  validator.regesterNotNull(name);
+}
+
+export function Max(maxAmount: number) {
+  return function (_: object, name: keyof Project) {
+    validator.regesterMaxAmount(new MaxField(maxAmount, name));
+  };
 }

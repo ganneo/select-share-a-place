@@ -1,19 +1,23 @@
 import ProjectManager from "../state/ProjectManager.js";
 import { ProjectType } from "../state/ProjectType.js";
 import { AutoBind } from "../util/Decorators.js";
+import { validator } from "../util/Validator.js";
 import Component from "./Component.js";
 import Project from "./Project.js";
 
-export default class ProjectInput extends Component<HTMLDivElement, HTMLElement> {
+export default class ProjectInput extends Component<
+  HTMLDivElement,
+  HTMLElement
+> {
   private titleInput!: HTMLInputElement;
   private descriptionTextArea!: HTMLTextAreaElement;
   private numPeopleInput!: HTMLInputElement;
   private btn!: HTMLButtonElement;
 
   constructor(private projectManager: ProjectManager) {
-    super('project-input-template', 'app', 'afterbegin')
+    super("project-input-template", "app", "afterbegin");
   }
-  
+
   protected configure() {
     const inputs = this.element.querySelectorAll("input");
     this.titleInput = inputs[0];
@@ -37,9 +41,21 @@ export default class ProjectInput extends Component<HTMLDivElement, HTMLElement>
       ProjectType.ACTIVE
     );
 
+    let validateResult = validator.validateNotNull(project);
+    if (!validateResult.isValid) {
+      alert(`change ${validateResult.fieldName}`);
+      return;
+    }
+
+    validateResult = validator.validateMaxAmount(project);
+    if (!validateResult.isValid) {
+      alert(`${validateResult.fieldName} to long`);
+      return;
+    }
+
     this.projectManager.addPrj(project);
-    this.titleInput.value = ''
-    this.descriptionTextArea.value = ''
-    this.numPeopleInput.value = ''
+    this.titleInput.value = "";
+    this.descriptionTextArea.value = "";
+    this.numPeopleInput.value = "";
   }
 }

@@ -1,16 +1,15 @@
 import { ProjectType } from "../state/ProjectType.js";
-import { Max, NotNull } from "../util/Decorators.js";
+import { NotNull, nthLetterIs } from "../util/Decorators.js";
 
 export default class Project {
   public id: number = -1;
 
-  @Max(5)
+  @nthLetterIs(1, "l")
   @NotNull
   public title: string;
-  @Max(7)
+  @nthLetterIs(0, "n")
   @NotNull
   public description: string;
-  @Max(10)
   @NotNull
   public numPeople: number;
   constructor(

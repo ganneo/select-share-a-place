@@ -1,51 +1,36 @@
-import Project from "../model/Project.js";
-import MaxField from "./MaxField.js";
+import ValidateItem from "./ValidateItem.js";
 import ValidateResult from "./ValidateResult.js";
 
 class Validator {
-  private static validator: Validator;
-  private notNullFields: (keyof Project)[] = [];
-  private maxAmountFields: MaxField[] = [];
+  private static validator = new Validator();
+  private validateMap: Map<string, ValidateItem[]> = new Map();
+
   private constructor() {}
 
   static getValidator() {
-    if (!Validator.validator) {
-      Validator.validator = new Validator();
+    return this.validator;
+  }
+
+  public register(constructorName: string, validateItem: ValidateItem): void {
+    if (!this.validateMap.has(constructorName)) {
+      this.validateMap.set(constructorName, []);
     }
 
-    return Validator.validator;
+    this.validateMap.get(constructorName)!.push(validateItem);
   }
 
-  public regesterNotNull(propertyName: keyof Project): void {
-    this.notNullFields.push(propertyName);
-  }
-
-  public regesterMaxAmount(maxField: MaxField): void {
-    this.maxAmountFields.push(maxField);
-  }
-
-  public validateNotNull(prj: Project) {
-    const nullField = this.notNullFields.find((field) => !prj[field]);
-    if (nullField) {
-      return new ValidateResult(false, nullField);
+  public validate(obj: any): ValidateResult {
+    if (!this.validateMap.has(obj.constructor.name)) {
+      return new ValidateResult(true);
     }
 
-    return new ValidateResult(true);
-  }
+    const validateItems = this.validateMap.get(obj.constructor.name)!;
+    const failedItem = validateItems.find(
+      (validateItem) =>
+        !validateItem.validateFunction(obj[validateItem.fieldName])
+    );
 
-  public validateMaxAmount(prj: Project) {
-    const tooLongField = this.maxAmountFields.find((maxAmountField) => {
-      const value = prj[maxAmountField.fieldName];
-      if (typeof value === "string") {
-        return value.length > maxAmountField.max;
-      }
-
-      if (typeof value === "number") {
-        return value > maxAmountField.max;
-      }
-    });
-
-    return new ValidateResult(!tooLongField, tooLongField?.fieldName);
+    return new ValidateResult(!failedItem, failedItem?.fieldName);
   }
 }
 

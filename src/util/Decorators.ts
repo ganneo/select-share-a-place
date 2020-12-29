@@ -1,5 +1,4 @@
-import Project from "../model/Project.js";
-import MaxField from "./MaxField.js";
+import ValidateItem from "./ValidateItem.js";
 import { validator } from "./Validator.js";
 
 export function AutoBind(
@@ -17,12 +16,24 @@ export function AutoBind(
   return newDescriptior;
 }
 
-export function NotNull(_: object, name: keyof Project): void {
-  validator.regesterNotNull(name);
+export function NotNull(target: object, name: string): void {
+  validator.register(
+    target.constructor.name,
+    new ValidateItem(name, (validateValue) => validateValue)
+  );
 }
 
-export function Max(maxAmount: number) {
-  return function (_: object, name: keyof Project) {
-    validator.regesterMaxAmount(new MaxField(maxAmount, name));
+export function nthLetterIs(position: number, nthLetter: string) {
+  return function (target: object, name: string) {
+    validator.register(
+      target.constructor.name,
+      new ValidateItem(name, (validateValue) => {
+        if (validateValue[position]) {
+          return validateValue[position] === nthLetter;
+        }
+
+        return false;
+      })
+    );
   };
 }

@@ -41,15 +41,9 @@ export default class ProjectInput extends Component<
       ProjectType.ACTIVE
     );
 
-    let validateResult = validator.validateNotNull(project);
+    const validateResult = validator.validate(project);
     if (!validateResult.isValid) {
       alert(`change ${validateResult.fieldName}`);
-      return;
-    }
-
-    validateResult = validator.validateMaxAmount(project);
-    if (!validateResult.isValid) {
-      alert(`${validateResult.fieldName} to long`);
       return;
     }
 

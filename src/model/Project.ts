@@ -1,5 +1,5 @@
-import { ProjectType } from "../state/ProjectType.js";
-import { NotNull, nthLetterIs } from "../util/Decorators.js";
+import { ProjectType } from "../state/ProjectType";
+import { NotNull, nthLetterIs } from "../util/Decorators";
 
 export default class Project {
   public id: number = -1;

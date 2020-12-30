@@ -1,5 +1,5 @@
-import ValidateItem from "./ValidateItem.js";
-import { validator } from "./Validator.js";
+import ValidateItem from "./ValidateItem";
+import { validator } from "./Validator";
 
 export function AutoBind(
   _: object,

@@ -1,12 +1,12 @@
-import Project from "../model/Project.js";
-import Observer from "./Observer.js";
-import { ProjectType } from "./ProjectType.js";
+import Project from "../model/Project";
+import Observer from "./Observer";
+import { ProjectType } from "./ProjectType";
 
 export default class ProjectManager {
   private projects: Project[] = [];
-  private observers: Observer[] = []
+  private observers: Observer[] = [];
   private static projectManager: ProjectManager;
-  private prjId: number = 0
+  private prjId: number = 0;
 
   private constructor() {}
 
@@ -18,28 +18,28 @@ export default class ProjectManager {
   }
 
   public addPrj(prj: Project) {
-    prj.setId(this.prjId++)
+    prj.setId(this.prjId++);
     this.projects.push(prj);
 
-    this.notify()
-    return prj
+    this.notify();
+    return prj;
   }
 
   public register(observer: Observer) {
-    this.observers.push(observer)
+    this.observers.push(observer);
   }
 
   public updatePrj(id: number, prjType: ProjectType) {
-    const oldPrj = this.projects.find((prj) => prj.id === id)!
+    const oldPrj = this.projects.find((prj) => prj.id === id)!;
     if (oldPrj.type !== prjType) {
-      oldPrj.type = prjType
-      this.notify()
+      oldPrj.type = prjType;
+      this.notify();
     }
   }
 
   private notify() {
     this.observers.forEach((observer) => {
-      observer.observe([...this.projects])
-    } )
+      observer.observe([...this.projects]);
+    });
   }
 }

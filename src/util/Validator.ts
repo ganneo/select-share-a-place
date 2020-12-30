@@ -1,5 +1,5 @@
-import ValidateItem from "./ValidateItem.js";
-import ValidateResult from "./ValidateResult.js";
+import ValidateItem from "./ValidateItem";
+import ValidateResult from "./ValidateResult";
 
 class Validator {
   private static validator = new Validator();

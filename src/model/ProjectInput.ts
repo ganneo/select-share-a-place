@@ -1,9 +1,9 @@
-import ProjectManager from "../state/ProjectManager.js";
-import { ProjectType } from "../state/ProjectType.js";
-import { AutoBind } from "../util/Decorators.js";
-import { validator } from "../util/Validator.js";
-import Component from "./Component.js";
-import Project from "./Project.js";
+import ProjectManager from "../state/ProjectManager";
+import { ProjectType } from "../state/ProjectType";
+import { AutoBind } from "../util/Decorators";
+import { validator } from "../util/Validator";
+import Component from "./Component";
+import Project from "./Project";
 
 export default class ProjectInput extends Component<
   HTMLDivElement,

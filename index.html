@@ -3,8 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="/dist/bundle.js"></script>
-    <title></title>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvTvWLa90CBmEww57yaZwhUvpTtz2b1T8&libraries=&v=weekly"
+      defer
+    ></script>
+    <script src="/dist/bundle.js" defer></script>
+    <title>Search and Share a Place</title>
+    <style>
+      #map {
+        height: 85vh;
+        width: 90%;
+        border: 1px solid gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin: auto;
+      }
+
+      form {
+        margin-top: 3rem;
+        text-align: center;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div id="map">Please enter an address!</div>
+    <form>
+      <input type="text" id="address" />
+      <button type="submit" id="btn">SEARCH ADDRESS</button>
+    </form>
+  </body>
 </html>
